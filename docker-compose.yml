@@ -13,8 +13,6 @@ services:
   php:
     build:
       context: backend
-    volumes:
-      - ./backend:/var/www/html
   front:
     build:
       context: frontend
