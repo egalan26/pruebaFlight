@@ -16,19 +16,25 @@ class FlightController extends ApiAbstractController
      * @throws GuzzleException
      */
     public function fetchEveryArrival(
-        Request $request,
+        Request                      $request,
         FetchArrivalByAirportUseCase $arrivalByAirportUseCase
     ): JsonResponse
     {
-        $airportCode = $this->extractFromQuery($request, 'airportCode');
+        $airportCode = $request->query->get('airportCode');
+        $startTime = $request->query->get('startTime');
+        $endTime = $request->query->get('endTime');
+
         try {
-            $result = $arrivalByAirportUseCase($airportCode, '1517227200', '1517230800');
-        }catch (AirportNotFoundException $exception){
+            $result = $arrivalByAirportUseCase($airportCode, $startTime, $endTime);
+        } catch (AirportNotFoundException $exception) {
             return new JsonResponse($exception->getMessage(), Response::HTTP_NOT_FOUND);
+        }catch (\TypeError $exception){
+            return new JsonResponse('Los parámetros de entrada son incorrectos.', Response::HTTP_BAD_REQUEST);
         }
 
 
         return new JsonResponse($result);
     }
+
 
 }

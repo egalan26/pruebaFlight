@@ -3,39 +3,58 @@
     <div v-if="errors">
       <span v-for="error in errors" :key="error">{{error}}</span>
     </div>
-    <BDropdown v-model="selectedAirport" :text="selectedAirport?selectedAirport.name :'Selecciona un aeropuerto'">
-      <BDropdownItem v-for="airport in availableAirports" :key="airport.code" @click="selectAirport(airport)">{{airport.code}} -- {{airport.name}}</BDropdownItem>
-    </BDropdown>
+    <h6>Selecciona aeropuerto</h6>
+    <BFormSelect v-model="selectedAirport" :options="availableAirports">
+    </BFormSelect>
 
 
-    {{arrivals}}
+    <h6>Selecciona fechas de inicio y final de búsqueda</h6>
+    <div class="datepickerClass">
+    <VueDatePicker model-type='timestamp' v-model="selectedDate.start"></VueDatePicker>
+    <VueDatePicker model-type='timestamp' v-model="selectedDate.end"></VueDatePicker>
+    </div>
+
+    <BButton  @click="selectAirport()">Buscar</BButton>
   </div>
 </template>
 
 <script>
-import {callApi, getAirportList} from "@/repository/apiService";
+import {fetchEveryArrival, getAirportList} from "@/repository/apiService";
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
+
 
 export default {
   name: 'MainView',
-  props: {
-    msg: String
-  },
+  components: {VueDatePicker},
   data() {
     return {
       availableAirports: getAirportList(),
       arrivals: [],
       selectedAirport: null,
       visibleTab: 1,
-      errors:[]
+      errors:[],
+      selectedDate: {
+        start: null,
+        end: null
+      }
+    }
+  },
+  computed:{
+    timestampStartDate(){
+
+      return this.selectedDate.start / 1000;
+    },
+    timestampEndDate(){
+      return this.selectedDate.end / 1000;
     }
   },
   methods: {
-    selectAirport(airport){
-      this.selectedAirport = airport
-      callApi(this).then(response => {
+    selectAirport(){
+      fetchEveryArrival(this).then(response => {
         this.arrivals = response
       }).catch((exception)=>{
-        this.errors.push(exception.message)
+        this.errors.push(exception.response.data)
         this.arrivals = []
       })
     }
@@ -44,4 +63,8 @@ export default {
 </script>
 
 <style scoped>
+.datepickerClass{
+  display:flex;
+}
+
 </style>

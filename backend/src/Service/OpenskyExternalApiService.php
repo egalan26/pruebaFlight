@@ -19,11 +19,12 @@ class OpenskyExternalApiService
         int    $to
     )
     {
+
         try {
             $str = "/api/flights/arrival?airport=$airport&begin=$from&end=$to";
             $response = $this->getClient()->get($str);
         } catch (\Exception) {
-            throw new AirportNotFoundException("El aeropuerto $airport no está disponible en OpenSky");
+            throw new AirportNotFoundException("El aeropuerto $airport no está disponible en OpenSky o las fechas no son las indicadas");
         }
         return json_decode($response->getBody()->getContents());
 
