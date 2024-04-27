@@ -12,9 +12,9 @@ class FetchArrivalByAirportUseCase
     {
     }
 
-    public function __invoke()
+    public function __invoke($airport,$from,$to)
     {
-        return $this->openskyExternalApiService->getArrivals('EDDF', '1517227200', '1517230800');
+        return $this->openskyExternalApiService->getArrivals($airport, $from, $to);
 
     }
 }

@@ -9,10 +9,10 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 
 class FlightController extends AbstractController
 {
-    public function a(FetchArrivalByAirportUseCase $arrivalByAirportUseCase)
+    public function fetchEveryArrival(FetchArrivalByAirportUseCase $arrivalByAirportUseCase): JsonResponse
     {
 
-        $result = $arrivalByAirportUseCase();
+        $result = $arrivalByAirportUseCase('EDDF', '1517227200', '1517230800');
 
         return new JsonResponse($result);
     }
