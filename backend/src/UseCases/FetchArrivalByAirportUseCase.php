@@ -2,7 +2,9 @@
 
 namespace App\UseCases;
 
+use App\Exceptions\AirportNotFoundException;
 use App\Service\OpenskyExternalApiService;
+use GuzzleHttp\Exception\GuzzleException;
 
 class FetchArrivalByAirportUseCase
 {
@@ -12,7 +14,11 @@ class FetchArrivalByAirportUseCase
     {
     }
 
-    public function __invoke($airport,$from,$to)
+    /**
+     * @throws GuzzleException
+     * @throws AirportNotFoundException
+     */
+    public function __invoke($airport, $from, $to)
     {
         return $this->openskyExternalApiService->getArrivals($airport, $from, $to);
 

@@ -1,7 +1,8 @@
 import airportList from '../assets/airportList.json'
 
 export function callApi(self) {
-    return self.$axios.get('/home')
+    let airport = self.selectedAirport
+    return self.$axios.get('/home', {params: {airportCode:airport.code}})
 }
 
 export function getAirportList() {
