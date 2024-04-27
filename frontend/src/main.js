@@ -10,7 +10,7 @@ import '@vuepic/vue-datepicker/dist/main.css'
 
 
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000',
+    baseURL: 'http://localhost:80',
 });
 let app = createApp(App);
 app.use(createBootstrap({components: true, directives: true}))

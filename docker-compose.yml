@@ -9,12 +9,16 @@ services:
     volumes:
       - ./backend/nginxConf:/etc/nginx/conf.d
       - ./backend:/var/www/html
-    restart: always
 
   php:
     build:
       context: backend
     volumes:
       - ./backend:/var/www/html
-    user: root
-    restart: always
+  front:
+    build:
+      context: frontend
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./frontend:/app
