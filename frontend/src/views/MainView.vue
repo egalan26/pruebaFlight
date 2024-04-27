@@ -1,20 +1,27 @@
 <template>
-  <div>
-    <div v-if="errors">
-      <span v-for="error in errors" :key="error">{{error}}</span>
+  <div class="mainContainer">
+    <div class="errorContainer" v-if="errors">
+      <span v-for="error in errors" :key="error">{{ error }}</span>
     </div>
-    <h6>Selecciona aeropuerto</h6>
-    <BFormSelect v-model="selectedAirport" :options="availableAirports">
-    </BFormSelect>
+    <div class="filterContainer">
+
+      <h6>Selecciona aeropuerto</h6>
+      <BFormSelect v-model="selectedAirport" :options="availableAirports">
+      </BFormSelect>
 
 
-    <h6>Selecciona fechas de inicio y final de búsqueda</h6>
-    <div class="datepickerClass">
-    <VueDatePicker model-type='timestamp' v-model="selectedDate.start"></VueDatePicker>
-    <VueDatePicker model-type='timestamp' v-model="selectedDate.end"></VueDatePicker>
+      <h6>Selecciona fechas de inicio y final de búsqueda</h6>
+      <div class="datepickerClass">
+        <VueDatePicker model-type='timestamp' v-model="selectedDate.start"></VueDatePicker>
+        <VueDatePicker model-type='timestamp' v-model="selectedDate.end"></VueDatePicker>
+      </div>
+
+      <BButton @click="selectAirport()">Buscar</BButton>
     </div>
 
-    <BButton  @click="selectAirport()">Buscar</BButton>
+    <div class="resultContainer">
+      <BTable :items="arrivals">      </BTable>
+    </div>
   </div>
 </template>
 
@@ -33,27 +40,27 @@ export default {
       arrivals: [],
       selectedAirport: null,
       visibleTab: 1,
-      errors:[],
+      errors: [],
       selectedDate: {
         start: null,
         end: null
       }
     }
   },
-  computed:{
-    timestampStartDate(){
+  computed: {
+    timestampStartDate() {
 
       return this.selectedDate.start / 1000;
     },
-    timestampEndDate(){
+    timestampEndDate() {
       return this.selectedDate.end / 1000;
     }
   },
   methods: {
-    selectAirport(){
+    selectAirport() {
       fetchEveryArrival(this).then(response => {
-        this.arrivals = response
-      }).catch((exception)=>{
+        this.arrivals = response.data
+      }).catch((exception) => {
         this.errors.push(exception.response.data)
         this.arrivals = []
       })
@@ -63,8 +70,21 @@ export default {
 </script>
 
 <style scoped>
-.datepickerClass{
+.datepickerClass {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.filterContainer{
   display:flex;
+  flex-direction: column;
+  height: 400px;
+  justify-content: space-evenly;
+}
+
+.mainContainer div[class$='Container']{
+  margin: 20px;
 }
 
 </style>
