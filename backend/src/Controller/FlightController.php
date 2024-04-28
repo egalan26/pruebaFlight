@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Exceptions\AirportNotFoundException;
 use App\UseCases\FetchArrivalByAirportUseCase;
+use FOS\RestBundle\Controller\Annotations\Route;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +16,7 @@ class FlightController extends ApiAbstractController
     /**
      * @throws GuzzleException
      */
+    #[Route("/fetchArrivals")]
     public function fetchEveryArrival(
         Request                      $request,
         FetchArrivalByAirportUseCase $arrivalByAirportUseCase

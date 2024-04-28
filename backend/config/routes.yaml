@@ -1,3 +1,0 @@
-index:
-    path: /fetchArrivals
-    controller: App\Controller\FlightController::fetchEveryArrival
