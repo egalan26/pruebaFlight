@@ -13,6 +13,12 @@ services:
   php:
     build:
       context: backend
+    volumes:
+      - ./backend:/var/www/html
+      - ./backend/entrypoint.sh:/tmp/entrypoint.sh
+    entrypoint: /tmp/entrypoint.sh
+    restart: always
+    user: root
   front:
     build:
       context: frontend
