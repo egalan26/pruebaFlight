@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use FOS\RestBundle\Controller\AbstractFOSRestController;
 
-class ApiAbstractController extends AbstractController
+class ApiAbstractController extends AbstractFOSRestController
 {
 
 }
