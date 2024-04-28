@@ -9,6 +9,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 
 class FlightController extends ApiAbstractController
@@ -17,6 +18,7 @@ class FlightController extends ApiAbstractController
      * @throws GuzzleException
      */
     #[Route("/fetchArrivals")]
+    #[Security("is_authenticated()")]
     public function fetchEveryArrival(
         Request                      $request,
         FetchArrivalByAirportUseCase $arrivalByAirportUseCase

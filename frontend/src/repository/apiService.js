@@ -3,6 +3,9 @@ import airportList from '../assets/airportList.json'
 export function fetchEveryArrival(self) {
 
     return self.$axios.get('/fetchArrivals', {
+        headers:{
+            'Authorization': 'Bearer logged' // TODO create a real authentication system
+        },
         params: {
             airportCode: self.selectedAirport,
             startTime: self.timestampStartDate,
