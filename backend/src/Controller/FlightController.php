@@ -22,12 +22,8 @@ class FlightController extends ApiAbstractController
         FetchArrivalByAirportUseCase $arrivalByAirportUseCase
     ): JsonResponse
     {
-        $airportCode = $request->query->get('airportCode');
-        $startTime = $request->query->get('startTime');
-        $endTime = $request->query->get('endTime');
-
         try {
-            $result = $arrivalByAirportUseCase($airportCode, $startTime, $endTime);
+            $result = $arrivalByAirportUseCase(...$this->extractParamsFromRequest($request));
         } catch (AirportNotFoundException $exception) {
             return new JsonResponse($exception->getMessage(), Response::HTTP_NOT_FOUND);
         }catch (\TypeError $exception){
@@ -36,6 +32,14 @@ class FlightController extends ApiAbstractController
 
 
         return new JsonResponse($result);
+    }
+
+    private function extractParamsFromRequest(Request $request): array
+    {
+        $airportCode = $request->query->get('airportCode');
+        $startTime = $request->query->get('startTime');
+        $endTime = $request->query->get('endTime');
+        return [$airportCode, $startTime, $endTime];
     }
 
 
