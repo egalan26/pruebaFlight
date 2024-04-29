@@ -2,18 +2,19 @@
   <div class="mainContainer">
     <div class="filterContainer">
 
-      <h6>Selecciona aeropuerto</h6>
-      <BFormSelect v-model="selectedAirport" :options="availableAirports" searchable clearable>
+      <h6>Select an airport</h6>
+      <BFormSelect v-model="selectedAirport" :options="availableAirports">
       </BFormSelect>
 
 
-      <h6>Selecciona fechas de inicio y final de búsqueda</h6>
+      <h6>Select date time range (max 7 days apart)</h6>
       <div class="datepickerClass">
-        <VueDatePicker model-type='timestamp' v-model="selectedDate.start"></VueDatePicker>
+        <VueDatePicker model-type='timestamp' v-model="selectedDate.start" ></VueDatePicker>
         <VueDatePicker model-type='timestamp' v-model="selectedDate.end"></VueDatePicker>
       </div>
 
-      <BButton @click="selectAirport()">Buscar</BButton> <BButton @click="selectAirport('EDDF', 1517227200, 1517230800)">Búsqueda Rápida</BButton>
+      <BButton @click="searchAirport()">Search</BButton>
+      <BButton @click="searchAirport('EDDF', 1517227200, 1517230800)">Quick (predefined) search</BButton>
     </div>
 
     <div class="resultContainer">
@@ -57,15 +58,26 @@ export default {
     }
   },
   methods: {
-    selectAirport(airport, start, end) {
-      this.loading=true
+    searchAirport(airport, start, end) {
       this.errors = []
-      fetchEveryArrival(this, airport, start, end).then(response => {
+      this.validate()
+      this.errors.length === 0 && fetchEveryArrival(this, airport, start, end).then(response => {
         this.arrivals = response.data
       }).catch((exception) => {
         this.errors.push(exception.response.data)
         this.arrivals = []
       })
+    },
+    validate() {
+      if (!this.selectedAirport) {
+        this.errors.push('You have to select an airport from the list')
+      }
+      if (!this.selectedDate.start){
+        this.errors.push('You have to select a date to begin with')
+      }
+      if (!this.selectedDate.end){
+        this.errors.push('You have to select a date to end with')
+      }
     }
   }
 }
@@ -88,5 +100,8 @@ export default {
 .mainContainer div[class$='Container'] {
   margin: 20px;
 }
-
+.errorContainer{
+  display: flex;
+  flex-direction: column;
+}
 </style>
