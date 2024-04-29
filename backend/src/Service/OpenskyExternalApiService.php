@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\Exceptions\AirportNotFoundException;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
@@ -11,7 +10,6 @@ class OpenskyExternalApiService
 
     /**
      * @throws GuzzleException
-     * @throws AirportNotFoundException
      */
     public function getArrivals(
         string $airport,
@@ -19,13 +17,9 @@ class OpenskyExternalApiService
         int    $to
     )
     {
-
-        try {
-            $str = "/api/flights/arrival?airport=$airport&begin=$from&end=$to";
-            $response = $this->getClient()->get($str);
-        } catch (\Exception) {
-            throw new AirportNotFoundException("El aeropuerto $airport no tiene llegadas programadas para esas fechas");
-        }
+        $response = $this->getClient()->get(
+            "/api/flights/arrival?airport=$airport&begin=$from&end=$to"
+        );
         return json_decode($response->getBody()->getContents());
 
     }

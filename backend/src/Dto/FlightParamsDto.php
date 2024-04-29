@@ -2,6 +2,7 @@
 
 namespace App\Dto;
 
+use InvalidArgumentException;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class FlightParamsDto extends SearchParamsDto
@@ -11,13 +12,15 @@ class FlightParamsDto extends SearchParamsDto
         #[Assert\Length(min: 3, max: 4)]
         private string $airport,
         #[Assert\Positive]
-        #[Assert\GreaterThan(1500000000)]
         private int $startTime,
         #[Assert\Positive]
-        #[Assert\GreaterThan(1500000000)]
         private int $endTime
     )
     {
+        $sevenDays = 7 * 24 * 3600;
+        if ($endTime-$startTime > $sevenDays){
+            throw new InvalidArgumentException("Start after end time or more than seven days of data requested");
+        }
     }
 
     /**
