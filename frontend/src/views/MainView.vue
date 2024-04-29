@@ -1,12 +1,9 @@
 <template>
   <div class="mainContainer">
-    <div class="errorContainer" v-if="errors">
-      <span v-for="error in errors" :key="error">{{ error }}</span>
-    </div>
     <div class="filterContainer">
 
       <h6>Selecciona aeropuerto</h6>
-      <BFormSelect v-model="selectedAirport" :options="availableAirports">
+      <BFormSelect v-model="selectedAirport" :options="availableAirports" searchable clearable>
       </BFormSelect>
 
 
@@ -16,11 +13,14 @@
         <VueDatePicker model-type='timestamp' v-model="selectedDate.end"></VueDatePicker>
       </div>
 
-      <BButton @click="selectAirport()">Buscar</BButton>
+      <BButton @click="selectAirport()">Buscar</BButton> <BButton @click="selectAirport('EDDF', 1517227200, 1517230800)">Búsqueda Rápida</BButton>
     </div>
 
     <div class="resultContainer">
-      <BTable :items="arrivals">      </BTable>
+      <BTable :items="arrivals" busyLoadingText="Cargando datos..."></BTable>
+      <div class="errorContainer" v-if="errors">
+        <span v-for="error in errors" :key="error">{{ error }}</span>
+      </div>
     </div>
   </div>
 </template>
@@ -57,8 +57,10 @@ export default {
     }
   },
   methods: {
-    selectAirport() {
-      fetchEveryArrival(this).then(response => {
+    selectAirport(airport, start, end) {
+      this.loading=true
+      this.errors = []
+      fetchEveryArrival(this, airport, start, end).then(response => {
         this.arrivals = response.data
       }).catch((exception) => {
         this.errors.push(exception.response.data)
@@ -76,14 +78,14 @@ export default {
   justify-content: space-evenly;
 }
 
-.filterContainer{
-  display:flex;
+.filterContainer {
+  display: flex;
   flex-direction: column;
   height: 400px;
   justify-content: space-evenly;
 }
 
-.mainContainer div[class$='Container']{
+.mainContainer div[class$='Container'] {
   margin: 20px;
 }
 
