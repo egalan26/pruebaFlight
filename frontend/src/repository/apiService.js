@@ -21,7 +21,7 @@ export function getAirportList() {
      * In the future, we can change this method for it to call an actual (correct) endpoint
      */
     return airportList.map((el) => {
-        return {'value': el.code, 'text': el.name}
+        return {'value': el.code, 'text': el.code +' - '+ el.name}
     })
 }
 
