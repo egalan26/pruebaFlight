@@ -15,9 +15,13 @@ This application allows to track all arrivals to an airport in an interval of ti
     ```
     cd pruebaFlight
     ```
-3. Start project with docker-compose
-    ```
-   docker-compose up -d
+3. Build images 
    ```
-4. Wait some minutes for node to build and serve the project
-5. Enjoy :)
+      make buildup
+   ```
+4. Start project with docker-compose
+    ```
+   docker-compose up
+   ```
+5. Wait some minutes for node to build and serve the project
+6. Goto to http://localhost:8080/ and enjoy :)

@@ -1,5 +1,6 @@
-buildup_dev:
-	docker-compose -f docker-compose-dev.yml up --build
+buildup:
+	docker-compose build front --no-cache
+	docker-compose build php --no-cache
 
 front_regenerate_vendors:
 	-rm -Rf node_modules/
