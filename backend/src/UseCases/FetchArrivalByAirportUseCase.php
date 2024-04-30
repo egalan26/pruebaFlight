@@ -2,9 +2,10 @@
 
 namespace App\UseCases;
 
-use App\Exceptions\AirportNotFoundException;
 use App\Service\OpenskyExternalApiService;
-use GuzzleHttp\Exception\GuzzleException;
+use Psr\Cache\InvalidArgumentException;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
+use Symfony\Contracts\Cache\ItemInterface;
 
 class FetchArrivalByAirportUseCase
 {
@@ -15,12 +16,15 @@ class FetchArrivalByAirportUseCase
     }
 
     /**
-     * @throws GuzzleException
-     * @throws AirportNotFoundException
+     * @throws InvalidArgumentException
      */
     public function __invoke($airport, $from, $to)
     {
-        return $this->openskyExternalApiService->getArrivals($airport, $from, $to);
+        $cache = new FilesystemAdapter();
+        return $cache->get("Flight$airport-$from-$to", function (ItemInterface $item) use ($airport, $from, $to){
+            $item->expiresAfter(60); // 1 min
+            return $this->openskyExternalApiService->getArrivals($airport, $from, $to);
+        });
 
     }
 }

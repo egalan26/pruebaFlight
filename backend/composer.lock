@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c8def6353039bd5fbcb1a667d5592794",
+    "content-hash": "750832856e693974f89d0d0650fa99b2",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1474,16 +1474,16 @@
         },
         {
             "name": "symfony/cache",
-            "version": "v5.4.38",
+            "version": "v5.4.39",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/cache.git",
-                "reference": "223c3afac82e003a76931b71d77db408636a0de8"
+                "reference": "982237e35079fdcc31ab724f06b6131992c4fd24"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/cache/zipball/223c3afac82e003a76931b71d77db408636a0de8",
-                "reference": "223c3afac82e003a76931b71d77db408636a0de8",
+                "url": "https://api.github.com/repos/symfony/cache/zipball/982237e35079fdcc31ab724f06b6131992c4fd24",
+                "reference": "982237e35079fdcc31ab724f06b6131992c4fd24",
                 "shasum": ""
             },
             "require": {
@@ -1551,7 +1551,7 @@
                 "psr6"
             ],
             "support": {
-                "source": "https://github.com/symfony/cache/tree/v5.4.38"
+                "source": "https://github.com/symfony/cache/tree/v5.4.39"
             },
             "funding": [
                 {
@@ -1567,7 +1567,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2024-03-19T09:55:32+00:00"
+            "time": "2024-04-18T08:26:06+00:00"
         },
         {
             "name": "symfony/cache-contracts",
