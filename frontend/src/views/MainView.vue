@@ -60,7 +60,9 @@ export default {
   methods: {
     searchAirport(airport, start, end) {
       this.errors = []
-      this.validate()
+      if (!this.isQuickSearch(airport)){
+        this.validate()
+      }
       this.errors.length === 0 && fetchEveryArrival(this, airport, start, end).then(response => {
         this.arrivals = response.data
       }).catch((exception) => {
@@ -78,6 +80,9 @@ export default {
       if (!this.selectedDate.end){
         this.errors.push('You have to select a date to end with')
       }
+    },
+    isQuickSearch(airport){
+      return !!airport;
     }
   }
 }
